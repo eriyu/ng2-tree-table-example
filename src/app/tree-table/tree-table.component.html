@@ -1,0 +1,12 @@
+<div *ngFor="let item of data">
+  <div class="tbrow">
+    <div class="tbcell">{{level}}</div>
+    <div class="tbcell tbcell-name">
+      <span [style.padding-left.px]="level * 10">{{item.name}}</span>
+    </div>
+    <div class="tbcell">
+      <button>Save</button>
+    </div>
+  </div>
+  <tree-table [data]="item.submenu" [level]="level"></tree-table>
+</div>
