@@ -1,4 +1,7 @@
 import { Component,ElementRef,OnInit } from '@angular/core';
+import { Http,Response } from '@angular/http';
+import 'rxjs/add/operator/map'
+import { Observable } from 'rxjs';
 declare var $:JQueryStatic;
 
 @Component({
@@ -10,49 +13,21 @@ export class AppComponent implements OnInit {
 
   treedata:any[];
 
-  constructor(private el: ElementRef){
+  constructor(private http: Http,private el: ElementRef){
 
   }
 
   ngOnInit() {
-    this.treedata = [
-      {
-        seq:'100',
-        name:'A',
-        submenu:[
-          {
-            name:'A-1',
-            seq:'110',
-            submenu:[{
-              name:'A-1-1',
-              seq:'111',
-              submenu:[]
-            }]
-          },
-          {name:'A-2',seq:'120',submenu:[]},
-          {name:'A-3',seq:'130',submenu:[]}
-        ]
-      },
-      {
-        seq:'200',
-        name:'B',
-        submenu:[
-          {
-            name:'B-1',
-            seq:'210',
-            submenu:[{
-              name:'B-1-1',
-              seq:'211',
-              submenu:[]
-            }]
-          },
-          {name:'B-2',seq:'220',submenu:[]},
-          {name:'B-3',seq:'230',submenu:[]}
-        ]
-      }
-    ];
+    let url = "http://www.json-generator.com/api/json/get/bMsUjDxRaq?indent=2";
+    this.http
+      .get(url)
+      .map((res:Response) => res.json())
+      .subscribe((res) => {
+        this.treedata = res;
+      });
   }
   ngAfterViewInit() {
+    console.log("$(this.el.nativeElement).find('.tbrow:even').length => ",$(this.el.nativeElement).find(".tbrow:even").length);
     $(this.el.nativeElement).find(".tbrow:even").addClass("tbrow-even");
   }
 }
